@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="white_50">#80FFFFFF</color>
+    <color name="primary">#061F44</color>
+    <color name="primary_dark">#031837</color>
+    <color name="accent">#714FFF</color>
+    <color name="accent_2">#FF2E93</color>
+
+    <color name="color_upgrade_background">#00E6B3</color>
+    <color name="color_item_menu_selected">#714FFF</color>
+    <color name="color_item_menu_normal">#061F44</color>
+    <color name="error">#E6514E</color>
+</resources>

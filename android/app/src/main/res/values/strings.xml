@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">WitVPN</string>
+    <string name="home">Home</string>
+    <string name="upgrade_to_vip">UPGRADE TO VIP</string>
+    <string name="account">Account</string>
+    <string name="email">Email</string>
+    <string name="log_out">Log out</string>
+    <string name="there_is_no_ads_anymore_awesome">There is no Ads anymore Awesome connection speed Multiple device usage Watch high quality video</string>
+    <string name="upgrade_vip">Upgrade VIP</string>
+    <string name="recurring_billing_cancel_anytime"><![CDATA[Recurring Billing. Cancel anytime. Payment will be charged to your iTunes account at confirmation of purchase. Your subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period. Your account will be charged for renewal within the 24 hours prior to the end of the current period. You can manage your subscription and switch off auto-renewal by accessing your iTunes & App Store Account Settings after purchase.]]></string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_of_use">terms of use</string>
+    <string name="yearly">Yearly</string>
+    <string name="monthly">Monthly</string>
+    <string name="save_2_month_free">save 2 month free</string>
+    <string name="select_a_location">Select a Location</string>
+    <string name="connect_vpn_now">connect vpn now</string>
+    <string name="disconnect_vpn">disconnect vpn</string>
+    <string name="connecting">Connecting (%s)</string>
+    <string name="upload">Upload</string>
+    <string name="only_show_vip_servers">Only Show VIP Servers</string>
+    <string name="sign_in">Sign In</string>
+    <string name="register">Register</string>
+    <string name="email_address">Email address</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="comfirm_password">Comfirm password</string>
+    <string name="by_signing_up_i_agree_to">By signing up, I agree to the Privacy Policy and Term of Conditions</string>
+    <string name="password_doesn_t_match">Password doesn’t match</string>
+    <string name="invalid_email_please_try_again_or_use_the_new_one">Invalid email. Please try again or use the new one</string>
+    <string name="a_reset_password_email">A reset password email will be sent to the email address below</string>
+    <string name="reset_password">Reset password</string>
+    <string name="free">Free</string>
+    <string name="leave_your_rating">Leave Your Rating</string>
+    <string name="enjoying_our_app_your_feedback">Enjoying our app? Your feedback matters! Please take a moment to leave a rating and share your thoughts. Thank you for your support!</string>
+    <string name="rate">Rate</string>
+    <string name="reset_password_email">Reset password email</string>
+    <string name="we_sent_a_reset_password_email_to_your_inbox">We sent a reset password email to your inbox. Please check and click the link inside to set up your new password</string>
+    <string name="ok">OK</string>
+    <string name="privacy_policy_des">WitVPN LLC. (the “Company”) is committed to maintaining robust privacy protections for its users. Our Privacy Policy (“Privacy Policy”) is designed to help you understand how we collect, use and safeguard the information you provide to us and to assist you in making informed decisions when using our Service.
+        \n\nFor purposes of this Agreement, “Service” refers to the Company’s service which can be accessed via our website at https://witworkapp.com/ or through our mobile applications on the App Store and Play Store in which users can capture quick reaction videos instantly. The terms “we,” “us,” and “our” refer to the Company. “You” refers to you, as a user of Service. By accepting our Privacy Policy and Terms of Use (found here: https://witworkapp.com/terms, you consent to our collection, storage, use, and disclosure of your personal information as described in this Privacy Policy.
+        \n\nI – PROCESSING YOUR DATA
+        \n\nWitVPN processes user data to a limited scope – for provision of the Services. We process the following basic information:
+        \n\n1.1 INFORMATION FOR CREATING YOUR ACCOUNT:
+        \n\nEmail address. We ask for your email address as part of your registration. It is necessary for establishing a WitVPN account and using our Services. 1.2 INFORMATION COLLECTED We collect only your email, which you submit to us through the registration process at the app. II – HOW WE USE AND SHARE INFORMATION We do not share your personal information with third parties. III- HOW WE PROTECT INFORMATION We implement security measures designed to protect your information from unauthorized access.Your account is protected by OTP code sending to your email and we urge you to take steps to keep your personal information safe by not disclosing your password and by logging out of your account after each use. We further protect your information from potential security breaches by implementing certain technological security measures including encryption, firewalls, and secure socket layer technology. However, these measures do not guarantee that your information will not be accessed, disclosed, altered, or destroyed by breach of such firewalls and secure server software. By using our Service, you acknowledge that you understand and agree to assume these risks. IV- YOUR RIGHTS REGARDING THE USE OF YOUR PERSONAL INFORMATION You have the right at any time to prevent us from contacting you for marketing purposes. When we send a promotional communication to a user, the user can opt-out of further promotional communications by following the unsubscribe instructions provided in each promotional email. You can also indicate that you do not wish to receive marketing communications from us in the “Settings” section of the Site. Please note that notwithstanding the promotional preferences you indicate by either unsubscribing or opting out in the Settings section of the Site, we may continue to send you administrative emails including, for example, periodic updates to our Privacy Policy. V- LINKS TO OTHER WEBSITES As part of the Service, we may provide links to or compatibility with other websites or applications. However, we are not responsible for the privacy practices employed by those websites or the information or content they contain. This Privacy Policy applies solely to information collected by us through the Site and the Service. Therefore, this Privacy Policy does not apply to your use of a third-party website accessed by selecting a link on our Site or via our Service. To the extent that you access or use the Service through or on another website or application, then the privacy policy of that other website or application will apply to your access or use of that site or application. We encourage our users to read the privacy statements of other websites before proceeding to use them. VI- CHANGES TO OUR PRIVACY POLICY The Company reserves the right to change this policy and our Terms of Service at any time. We will notify you of significant changes to our Privacy Policy by sending a notice to the primary email address specified in your account or by placing a prominent notice on our site. Significant changes will go into effect 30 days following such notification. Non-material changes or clarifications will take effect immediately. You should periodically check the Site and this privacy page for updates. VII- CONTACT US If you have any questions regarding this Privacy Policy or the practices of this Site, please contact us by sending an email to hello@witworkapp.com Last Updated: This Privacy Policy was last updated on Nov 02, 2021.</string>
+    <string name="refuse">Refuse</string>
+    <string name="you_current_xxx">You current %s VIP package is valid until %s. If you want to cancel or change, please go to your subscription account</string>
+</resources>

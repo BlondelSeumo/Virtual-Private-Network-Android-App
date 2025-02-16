@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProxyVPN</title>
+<link href="./documentation_files/tailwind.min.css" rel="stylesheet">
+<link rel="stylesheet" href="./documentation_files/stylesheet.css">
+<link href="./documentation_files/ionicons.min.css" rel="stylesheet">
+<script src="./documentation_files/highlight.min.js.download" id="highlightJSScriptElement"></script>
+<link rel="stylesheet" href="./documentation_files/atom-one-dark.min.css" id="highlightJSCSSElement">
+<style>
+.ce-paragraph--right {
+    text-align: right;
+}
+.ce-paragraph--center {
+    text-align: center;
+}
+.ce-paragraph--left {
+    text-align: left;
+}
+
+.ce-paragraph[data-placeholder]:empty::before{
+  content: attr(data-placeholder);
+  color: #707684;
+  font-weight: normal;
+  opacity: 0;
+}
+
+/** Show placeholder at the first paragraph if Editor is empty */
+.codex-editor--empty .ce-block:first-child .ce-paragraph[data-placeholder]:empty::before {
+  opacity: 1;
+}
+
+.codex-editor--toolbox-opened .ce-block:first-child .ce-paragraph[data-placeholder]:empty::before,
+.codex-editor--empty .ce-block:first-child .ce-paragraph[data-placeholder]:empty:focus::before {
+  opacity: 0;
+}
+
+.ce-paragraph p:first-of-type{
+    margin-top: 0;
+}
+
+.ce-paragraph p:last-of-type{
+    margin-bottom: 0;
+}
+
+
+.svg-icon {
+    width: 1em;
+    height: 1em;
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+    fill: #4691f6;
+}
+
+.svg-icon circle {
+    stroke: #4691f6;
+    stroke-width: 1;
+}
+.inline-code {
+  background: rgba(250, 239, 240, 0.78);
+  color: #b44437;
+  padding: 3px 4px;
+  border-radius: 5px;
+  margin: 0 1px;
+  font-family: inherit;
+  font-size: 0.86em;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+.cdx-list {
+    margin: 0;
+    padding-left: 40px;
+    outline: none;
+}
+
+.cdx-list__item {
+    padding: 5.5px 0 5.5px 3px;
+    line-height: 1.6em;
+}
+
+.cdx-list--unordered {
+    list-style: disc;
+}
+
+.cdx-list--ordered {
+    list-style: decimal;
+}
+
+.cdx-list-settings {
+    display: flex;
+}
+
+.cdx-list-settings .cdx-settings-button {
+        width: 50%;
+}
+
+.codeBoxHolder{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.codeBoxTextArea{
+  width: 100%;
+  min-height: 30px;
+  padding: 10px;
+  border-radius: 2px 2px 2px 0;
+  border: none !important;
+  outline: none !important;
+  font: 14px monospace;
+}
+
+.codeBoxSelectDiv{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
+}
+
+.codeBoxSelectInput{
+  border-radius: 0 0 20px 2px;
+  padding: 2px 26px;
+  padding-top: 0;
+  padding-right: 0;
+  text-align: left;
+  cursor: pointer;
+  border: none !important;
+  outline: none !important;
+}
+
+.codeBoxSelectDropIcon{
+  position: absolute !important;
+  left: 10px !important;
+  bottom: 0 !important;
+  width: unset !important;
+  height: unset !important;
+  font-size: 16px !important;
+}
+
+.codeBoxSelectPreview{
+  display: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-radius: 2px;
+  box-shadow: 0 3px 15px -3px rgba(13,20,33,.13);
+  position: absolute;
+  top: 100%;
+  margin: 5px 0;
+  max-height: 30vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 10000;
+}
+
+.codeBoxSelectItem{
+  width: 100%;
+  padding: 5px 20px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.codeBoxSelectItem:hover{
+  opacity: 0.7;
+}
+
+.codeBoxSelectedItem{
+  background-color: lightblue !important;
+}
+
+.codeBoxShow{
+  display: flex !important;
+}
+
+.dark{
+  color: #abb2bf;
+  background-color: #282c34;
+}
+
+.light{
+  color: #383a42;
+  background-color: #fafafa;
+}
+
+.embed-tool--loading .embed-tool__caption {
+      display: none;
+    }
+
+    .embed-tool--loading .embed-tool__preloader {
+      display: block;
+    }
+
+    .embed-tool--loading .embed-tool__content {
+      display: none;
+    }
+  .embed-tool__preloader {
+    display: none;
+    position: relative;
+    height: 200px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #e6e9eb;
+  }
+  .embed-tool__preloader::before {
+      content: '';
+      position: absolute;
+      z-index: 3;
+      left: 50%;
+      top: 50%;
+      width: 30px;
+      height: 30px;
+      margin-top: -25px;
+      margin-left: -15px;
+      border-radius: 50%;
+      border: 2px solid #cdd1e0;
+      border-top-color: #388ae5;
+      box-sizing: border-box;
+      animation: embed-preloader-spin 2s infinite linear;
+    }
+  .embed-tool__url {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 250px;
+    color: #7b7e89;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .embed-tool__content {
+    width: 100%;
+  }
+  .embed-tool__caption {
+    margin-top: 7px;
+  }
+  .embed-tool__caption[contentEditable=true][data-placeholder]::before{
+      position: absolute;
+      content: attr(data-placeholder);
+      color: #707684;
+      font-weight: normal;
+      opacity: 0;
+    }
+  .embed-tool__caption[contentEditable=true][data-placeholder]:empty::before {
+         opacity: 1;
+      }
+  .embed-tool__caption[contentEditable=true][data-placeholder]:empty:focus::before {
+        opacity: 0;
+      }
+
+@keyframes embed-preloader-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.image-tool {
+  --bg-color: #cdd1e0;
+  --front-color: #388ae5;
+  --border-color: #e8e8eb;
+}
+
+  .image-tool__image {
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+
+  .image-tool__image-picture {
+      max-width: 100%;
+      vertical-align: bottom;
+      display: block;
+    }
+
+  .image-tool__image-preloader {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-size: cover;
+      margin: auto;
+      position: relative;
+      background-color: var(--bg-color);
+      background-position: center center;
+    }
+
+  .image-tool__image-preloader::after {
+        content: "";
+        position: absolute;
+        z-index: 3;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 2px solid var(--bg-color);
+        border-top-color: var(--front-color);
+        left: 50%;
+        top: 50%;
+        margin-top: -30px;
+        margin-left: -30px;
+        animation: image-preloader-spin 2s infinite linear;
+        box-sizing: border-box;
+      }
+
+  .image-tool__caption[contentEditable="true"][data-placeholder]::before {
+      position: absolute !important;
+      content: attr(data-placeholder);
+      color: #707684;
+      font-weight: normal;
+      display: none;
+    }
+
+  .image-tool__caption[contentEditable="true"][data-placeholder]:empty::before {
+        display: block;
+      }
+
+  .image-tool__caption[contentEditable="true"][data-placeholder]:empty:focus::before {
+        display: none;
+      }
+
+  .image-tool--empty .image-tool__image {
+      display: none;
+    }
+
+  .image-tool--empty .image-tool__caption, .image-tool--loading .image-tool__caption {
+      display: none;
+    }
+
+  .image-tool--filled .cdx-button {
+      display: none;
+    }
+
+  .image-tool--filled .image-tool__image-preloader {
+        display: none;
+      }
+
+  .image-tool--loading .image-tool__image {
+      min-height: 200px;
+      display: flex;
+      border: 1px solid var(--border-color);
+      background-color: #fff;
+    }
+
+  .image-tool--loading .image-tool__image-picture {
+        display: none;
+      }
+
+  .image-tool--loading .cdx-button {
+      display: none;
+    }
+
+  /**
+   * Tunes
+   * ----------------
+   */
+
+  .image-tool--withBorder .image-tool__image {
+      border: 1px solid var(--border-color);
+    }
+
+  .image-tool--withBackground .image-tool__image {
+      padding: 15px;
+      background: var(--bg-color);
+    }
+
+  .image-tool--withBackground .image-tool__image-picture {
+        max-width: 60%;
+        margin: 0 auto;
+      }
+
+  .image-tool--stretched .image-tool__image-picture {
+        width: 100%;
+      }
+
+@keyframes image-preloader-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/**
+ * Plugin styles
+ */
+
+
+/**
+ * Styles for Plugin icon in Toolbar
+ */
+
+.ce-header__icon {}
+
+.ce-header[contentEditable=true][data-placeholder]::before {
+    position: absolute;
+    content: attr(data-placeholder);
+    color: #707684;
+    font-weight: normal;
+    display: none;
+}
+
+.ce-header[contentEditable=true][data-placeholder]:empty::before {
+    display: block;
+}
+
+.ce-header[contentEditable=true][data-placeholder]:empty:focus::before {
+    display: none;
+}
+.ce-paragraph {
+    line-height: 1.6em;
+    outline: none;
+}
+
+.ce-paragraph[data-placeholder]:empty::before{
+  content: attr(data-placeholder);
+  color: #707684;
+  font-weight: normal;
+  opacity: 0;
+}
+
+/** Show placeholder at the first paragraph if Editor is empty */
+.codex-editor--empty .ce-block:first-child .ce-paragraph[data-placeholder]:empty::before {
+  opacity: 1;
+}
+
+.codex-editor--toolbox-opened .ce-block:first-child .ce-paragraph[data-placeholder]:empty::before,
+.codex-editor--empty .ce-block:first-child .ce-paragraph[data-placeholder]:empty:focus::before {
+  opacity: 0;
+}
+
+.ce-paragraph p:first-of-type{
+    margin-top: 0;
+}
+
+.ce-paragraph p:last-of-type{
+    margin-bottom: 0;
+}
+.document-toolkit {
+  background: #fff;
+}
+.document-toolkit .codeBoxSelectDiv {
+  display: none;
+}
+.document-toolkit .codeBoxHolder {
+  margin-bottom: 14px;
+  border-radius: 16px;
+  background-color: #f5f5f5;
+  display: block;
+}
+.document-toolkit .left-side-bar {
+  width: 240px;
+  height: 100vh;
+  background-color: #212121;
+  position: -webkit-sticky;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  left: 0;
+}
+.document-toolkit .left-side-bar > a {
+  padding: 16px;
+}
+.document-toolkit__content {
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+}
+.document-toolkit__content .header {
+  padding-left: 24px;
+  padding-right: 24px;
+  height: 48px;
+  border: solid 1px #e0e0e0;
+  background-color: #ffffff;
+  border-right: none;
+}
+.document-toolkit__content .header .search {
+  padding-left: 13px;
+  padding-right: 13px;
+  width: 470px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #e0e0e0;
+  background-color: #fafafa;
+}
+.document-toolkit__content .header .search input {
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.38;
+  letter-spacing: 0.3px;
+  color: #9e9e9e;
+  background: transparent;
+}
+.document-toolkit__content .main {
+  padding-top: 24px;
+  width: 85%;
+  margin: auto;
+}
+.document-toolkit__content .main .ce-toolbar__content,
+.document-toolkit__content .main .ce-block__content {
+  max-width: 100%;
+}
+.document-toolkit__content .main .ce-block__content,.document-toolkit__content .main .ce-toolbar__content{
+    width:100%
+}
+.document-toolkit__content .main .ce-block__content .codeBoxHolder,.document-toolkit__content .main .ce-toolbar__content .codeBoxHolder{
+    height:-webkit-fit-content;
+    height:-moz-fit-content;
+    height:fit-content;
+    border-radius:4px;
+    background-color:#f5f5f5;
+    margin:10px 0;
+    padding:8px 0
+}
+.document-toolkit__content .main .ce-block__content .codeBoxHolder .codeBoxTextArea>pre,.document-toolkit__content .main .ce-toolbar__content .codeBoxHolder .codeBoxTextArea>pre{
+    padding:0!important;
+    margin:0!important
+}
+.document-toolkit__content .main .ce-block__content .codeBoxHolder .light,.document-toolkit__content .main .ce-toolbar__content .codeBoxHolder .light{
+    background:transparent
+}
+.document-toolkit__content .main .ce-toolbox {
+  background: #fff;
+  border-radius: 8px;
+  padding: 4px 10px;
+  box-shadow: 0 1px 4px rgba(32, 33, 36, 0.28);
+}
+.document-toolkit .menu {
+  width: 280px;
+  border: solid 1px #e0e0e0;
+  background-color: #fafafa;
+  padding: 16px;
+}
+.document-toolkit .menu ul li {
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: 0.1px;
+  color: #424242;
+}
+.document-toolkit .menu ul li:hover, .document-toolkit .menu ul li:focus {
+  color: #655aff;
+}
+.document-toolkit .menu ul li:last-child {
+  color: #adadad;
+}
+.document-toolkit .menu hr {
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+.document-toolkit .menu .about-us p {
+  font-size: 13px;
+  line-height: 1.31;
+  letter-spacing: 0.1px;
+  color: #adadad;
+  margin-top: 16px;
+  font-weight: normal;
+}
+
+.shn-title {
+  font-size: 22px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.23;
+  letter-spacing: 0.3px;
+  color: #2a2a2c;
+  padding-top: 24px;
+  position: relative;
+  outline: none;
+  margin-bottom: 32px;
+}
+.shn-title:after {
+  content: "";
+  width: 102px;
+  height: 1px;
+  border: solid 1px #e0e0e0;
+  margin-top: 13px;
+  margin-bottom: 15px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  outline: none;
+}
+
+.shn-sub-title {
+  font-size: 18px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  color: #2a2a2c;
+  padding-bottom: 8px;
+  outline: none;
+}
+
+.shn-sub-sub-title {
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: 0.09px;
+  color: #2a2a2c;
+  padding-top: 10px;
+  outline: none;
+}
+
+.ce-block a {
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.57;
+  letter-spacing: normal;
+  color: #ff2e93;
+  display: inline-block;
+}
+
+.image-tool__image img {
+  width: 560px;
+  height: auto;
+}
+
+.ce-paragraph {
+  padding: 0;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.57;
+  letter-spacing: normal;
+  color: #2a2a2c;
+  padding-bottom: 10px;
+}
+
+.image-tool__image {
+  margin-bottom: 0;
+}
+
+.embed-tool__caption,
+.image-tool__caption {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  padding: 0;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.57;
+  letter-spacing: normal;
+  color: #5a5a5a;
+  padding-bottom: 10px;
+}
+
+.left-side-bar #listPagination > ul > li > div {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.56;
+  letter-spacing: 1.4px;
+  color: #ffffff;
+  padding: 5px 16px;
+  margin-bottom: 5px;
+  margin-top: 23px;
+}
+.left-side-bar #listPagination .nav-item {
+  padding: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+.left-side-bar #listPagination .nav-item:hover a, .left-side-bar #listPagination .nav-item:focus a, .left-side-bar #listPagination .nav-item.active a {
+  color: #fff;
+  font-weight: 500;
+  background-color: #535353;
+}
+.left-side-bar #listPagination .nav-item a {
+  padding: 5px 16px;
+  display: block;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: 0.1px;
+  color: #9e9e9e;
+}
+
+.ce-toolbar__actions {
+  right: -45px;
+}
+.ce-toolbar__actions .ce-toolbar__settings-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 100px;
+}
+.ce-toolbar__actions .ce-toolbar__settings-btn:hover, .ce-toolbar__actions .ce-toolbar__settings-btn:focus {
+  background: #655aff;
+  color: #fff;
+}
+
+.embed-tool iframe {
+  width: 560px !important;
+}
+.search-result {
+    background: #fff;
+    top: 32px;
+    width: 100%;
+    left: 0;
+    height: fit-content;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    right: 0;
+    padding: 8px 14px;
+    z-index: 1000;
+}
+
+.search-result a {
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: normal;
+    color: #2a2a2c;
+}
+.codeBoxTextArea > span, .codeBoxTextArea > pre {
+    background: transparent !important;
+}
+.document-toolkit__content .main .ce-block__content .codeBoxHolder .light, .document-toolkit__content .main .ce-toolbar__content .codeBoxHolder .light {
+    background: transparent;
+    overflow: hidden;
+    overflow-x: scroll;
+}
+#listPagination {
+  height: calc(100vh - 120px);
+  overflow: hidden;
+  overflow-y: scroll;
+}
+</style>
+</head>
+<body data-spy="scroll" data-target="#listPagination" data-offset="20" data-new-gr-c-s-check-loaded="14.1223.0" data-gr-ext-installed="">
+<div class="document-toolkit">
+  <div class="flex flex-wrap">
+    <div class="left-side-bar">
+      <a href="https://doc-ProxyVPN.web.app/#" class="flex text-white font-bold items-center">
+        <img src="./documentation_files/bFifPju.png" alt="logo" class="logo" style="width: 40px; height: 40px; border-radius: 8px; overflow: hidden; object-fit: cover">
+        <span class="ml-2 pa-18">ProxyVPN</span>
+      </a>
+      <div id="listPagination"><ul class="nav"><li class="nav-item"><div>Getting Started</div></li><li class="nav-item"><div>Setup OpenVPN Server</div></li><li class="nav-item"><a class="nav-link 1_create_google_vm_instance" href="https://doc-ProxyVPN.web.app/#1_create_google_vm_instance">1. Create Google VM Instance</a></li><li class="nav-item"><a class="nav-link 2_setup_openvpn_server" href="https://doc-ProxyVPN.web.app/#2_setup_openvpn_server">2. Setup OpenVPN Server</a></li><li class="nav-item"><a class="nav-link 3_setup_client_openvpn" href="https://doc-ProxyVPN.web.app/#3_setup_client_openvpn">3. Setup Client OpenVPN</a></li><li class="nav-item"><a class="nav-link 4_multi_openvpn_server" href="https://doc-ProxyVPN.web.app/#4_multi_openvpn_server">4. Multi OpenVPN Server</a></li><li class="nav-item"><div>Setup CMS Admin</div></li><li class="nav-item"><a class="nav-link 1_config_firebase_hosting" href="https://doc-ProxyVPN.web.app/#1_config_firebase_hosting">1. Config Firebase Hosting</a></li><li class="nav-item"><a class="nav-link 2_config_firebase_cloud_function" href="https://doc-ProxyVPN.web.app/#2_config_firebase_cloud_function">2. Config Firebase Cloud Function</a></li><li class="nav-item"><a class="nav-link 3_deploy_to_firebase_hosting" href="https://doc-ProxyVPN.web.app/#3_deploy_to_firebase_hosting">3. Deploy to Firebase hosting</a></li><li class="nav-item"><a class="nav-link 3_1_deploy_to_custom_hosting" href="https://doc-ProxyVPN.web.app/#3_1_deploy_to_custom_hosting">3.1 Deploy to Custom Hosting</a></li><li class="nav-item"><a class="nav-link 4_enable_firebase_authentication" href="https://doc-ProxyVPN.web.app/#4_enable_firebase_authentication">4. Enable Firebase Authentication</a></li><li class="nav-item"><a class="nav-link 5_generate_list_item_server_vpn_for_mobile" href="https://doc-ProxyVPN.web.app/#5_generate_list_item_server_vpn_for_mobile">5. Generate List Item Server VPN For Mobile</a></li><li class="nav-item"><div>Setup Android Mobile</div></li><li class="nav-item"><a class="nav-link 1_setup_firebase_project_for_android" href="https://doc-ProxyVPN.web.app/#1_setup_firebase_project_for_android">1. Setup Firebase Project for Android</a></li><li class="nav-item"><a class="nav-link 2_getting_the_debug_certificate" href="https://doc-ProxyVPN.web.app/#2_getting_the_debug_certificate">2. Getting the Debug Certificate</a></li><li class="nav-item"><a class="nav-link 3_add_google_services_json" href="https://doc-ProxyVPN.web.app/#3_add_google_services_json">3. Add google-services.json</a></li><li class="nav-item"><a class="nav-link 4_onesignal_push_notification" href="https://doc-ProxyVPN.web.app/#4_onesignal_push_notification">4. Onesignal Push Notification</a></li><li class="nav-item"><a class="nav-link 5_google_admob" href="https://doc-ProxyVPN.web.app/#5_google_admob">5. Google AdMob</a></li><li class="nav-item"><a class="nav-link 6_google_play_create_a_subscription" href="https://doc-ProxyVPN.web.app/#6_google_play_create_a_subscription">6. Google Play Create a Subscription</a></li><li class="nav-item"><a class="nav-link 7_add_config_to_cloud_firestore" href="https://doc-ProxyVPN.web.app/#7_add_config_to_cloud_firestore">7. Add Config To Cloud Firestore</a></li><li class="nav-item"><div>SETUP iOS MOBILE</div></li><li class="nav-item"><a class="nav-link 1_setup_firebase_project_for_ios" href="https://doc-ProxyVPN.web.app/#1_setup_firebase_project_for_ios">1. Setup Firebase Project for iOS</a></li><li class="nav-item"><a class="nav-link 2_add_google_services_json" href="https://doc-ProxyVPN.web.app/#2_add_google_services_json">2. Add google-services.json</a></li><li class="nav-item"><a class="nav-link 3_add_in_app_purchase_to_cloud_firestore" href="https://doc-ProxyVPN.web.app/#3_add_in_app_purchase_to_cloud_firestore">3. Add&nbsp; In app purchase to Cloud Firestore</a></li><li class="nav-item"><div>SERVICE POLICY</div></li></ul></div>
+      <div class="absolute bottom-0 left-0 bottom-0 pb-4 px-3" style="font-size: 13px">Powered by <a href="https://github.com/BlondelSeumo" target="_blank" style="color: rgb(255, 46, 147); line-height: 1.31; letter-spacing: 0.1px;">ProxyVPN</a></div>
+    </div>
+    <div class="document-toolkit__content">
+      <div class="header flex items-center justify-center">
+        <div class="search flex items-center justify-between relative">
+            <input id="search-input" type="text" placeholder="Search" class="w-full border-0 outline-none">
+            <span class="ion-android-search"></span>
+            <span class="cursor-pointer ion-android-close hidden"></span>
+            <div class="search-result absolute" style="display: none;">
+
+            </div>
+        </div>
+      </div>
+      <div class="main">
+        <div class="ce-block"><div class="ce-block__content"><h1 class="ce-header shn-title" doc="true" id="getting_started" data-placeholder="">Getting Started</h1></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">We would like to thank you for your trust and use ProxyVPN apps. Application ProxyVPN works on a separate server, which we use here is google vm instance and attached is openvpn. As you know openvpn is a widely used application all over the world but it is difficult to install, here we will guide you to install openvpn quickly. Accompanying it is firebase, Firebase is a cross-platform application developed by google. Here, we use firebase as a server API, to manage the list of servers, users. And to start, we will install the openvpn server.</div></div></div><div class="ce-block"><div class="ce-block__content"><h1 class="ce-header shn-title" doc="true" id="setup_openvpn_server" data-placeholder="">Setup OpenVPN Server</h1></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="1_create_google_vm_instance" data-placeholder="">1. Create Google VM Instance</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">The Openvpn server runs on many different platforms, but here we are using the Debian / Linux platform. To install Debian, please refer to the video below:</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block embed-tool"><preloader class="embed-tool__preloader"><div class="embed-tool__url">https://youtu.be/kqpCIuIGtYI</div></preloader><iframe style="width:100%;" height="320" frameborder="0" allowfullscreen="" src="./documentation_files/kqpCIuIGtYI.html" class="embed-tool__content"></iframe><div class="cdx-input embed-tool__caption" doc="true" data-placeholder="Enter a caption">After installation is complete, please go to the next step which is to install the openvpn application<br></div></div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="2_setup_openvpn_server" data-placeholder="">2. Setup OpenVPN Server</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">As you all know, to install the application openvpn server, it takes quite a lot of time to type commands and configure the server. Here, ProxyVPN provides you with a script file, just need to execute the file, we can install openvpn server quickly. Please refer to the video below:<br><br></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block embed-tool"><preloader class="embed-tool__preloader"><div class="embed-tool__url">https://youtu.be/RHOlpE9dDhA</div></preloader><iframe style="width:100%;" height="320" frameborder="0" allowfullscreen="" src="./documentation_files/RHOlpE9dDhA.html" class="embed-tool__content"></iframe><div class="cdx-input embed-tool__caption" doc="true" data-placeholder="Enter a caption">In it there are scripts such as:<br></div></div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><pre class=" language-bash" style="font-style: normal; font-variant-caps: normal; border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; background-color: rgb(245, 245, 245); text-shadow: white 0px 1px; word-break: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none; padding: 1em;"><code class=" language-bash" style="border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; text-shadow: white 0px 1px; word-spacing: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none;"><span class="token function" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(221, 74, 104);"><span class="hljs-selector-tag"><span style="font-size: 14px; color: black; word-spacing: normal;">$</span> <span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag">sudo</span></span></span></span></span></span></span> <span class="token function" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(221, 74, 104);"><span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag">chmod</span></span></span></span></span></span></span> +<span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag">x</span></span></span></span></span></span> <span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag"><span class="hljs-selector-tag">openvpn</span></span></span></span></span></span><span class="hljs-selector-class"><span class="hljs-selector-class"><span class="hljs-selector-class"><span class="hljs-selector-class"><span class="hljs-selector-class"><span class="hljs-selector-class">.sh</span></span> </span></span></span></span></code></pre></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">This command allows the operating system to view this file as an executable.</div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><pre class=" language-bash" style="font-style: normal; font-variant-caps: normal; border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; background-color: rgb(245, 245, 245); text-shadow: white 0px 1px; word-break: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none; padding: 1em;"><code class=" language-bash" style="border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; text-shadow: white 0px 1px; word-spacing: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none;">$ <span class="token function" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(221, 74, 104);">sudo</span> ./openvpn.sh</code></pre></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">This command is used to execute openvpn file. In case you do not have openvpn installed, the build will guide you through the configuration settings</div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><pre class=" language-bash" style="font-style: normal; font-variant-caps: normal; border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; background-color: rgb(245, 245, 245); text-shadow: white 0px 1px; word-break: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none; padding: 1em;"><code class=" language-bash" style="border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; text-shadow: white 0px 1px; word-spacing: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none;"><span class="token number" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(153, 0, 85);"><span class="hljs-bullet"><span class="hljs-bullet">1</span></span></span><span class="hljs-bullet"><span class="hljs-bullet">. </span></span>Public Ipv4 address / hostname:
+<span class="hljs-bullet"><span class="hljs-bullet">
+</span></span><span class="token number" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(153, 0, 85);"><span class="hljs-bullet"><span class="hljs-bullet">2</span></span></span><span class="hljs-bullet"><span class="hljs-bullet">. </span></span>Which protocol should openvpn user?:
+<span class="hljs-bullet"><span class="hljs-bullet">
+</span></span><span class="token number" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(153, 0, 85);"><span class="hljs-bullet"><span class="hljs-bullet">3</span></span></span><span class="hljs-bullet"><span class="hljs-bullet">. </span></span>What port should OpenVPN listen to?:
+<span class="hljs-bullet"><span class="hljs-bullet">
+</span></span><span class="token number" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(153, 0, 85);"><span class="hljs-bullet"><span class="hljs-bullet">4</span></span></span><span class="hljs-bullet"><span class="hljs-bullet">. </span></span>Select a DNS server <span class="token keyword" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(0, 119, 170);">for</span> the clients:
+<span class="hljs-bullet"><span class="hljs-bullet">
+</span></span><span class="token number" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(153, 0, 85);"><span class="hljs-bullet"><span class="hljs-bullet">5</span></span></span><span class="hljs-bullet"><span class="hljs-bullet">. </span></span>Enter a name <span class="token keyword" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(0, 119, 170);">for</span> the fitst client:</code></pre></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">1. This is your public server IP.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">2. Choose the protocol by which openvpn works, here we will give the suggestion as UDP protocol.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">3. The port that you use for the client to connect to the openvpn server, we will default to 1194, but you can enter another port.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">4. The place where you choose domain name resolution service, here, we recommend you to leave number 2 as Google.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">5. The last step when executing the file openvpn.sh, the application will generate a cert for the client to connect to and here is the ProxyVPN application.<br></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">After installation, you should check and start the openvpn service with the command:</div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><pre class=" language-bash" style="font-style: normal; font-variant-caps: normal; border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; background-color: rgb(245, 245, 245); text-shadow: white 0px 1px; word-break: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none; padding: 1em;"><code class=" language-bash" style="border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; text-shadow: white 0px 1px; word-spacing: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none;">$ <span class="token function" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(221, 74, 104);">sudo</span> <span class="token function" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(221, 74, 104);">service</span> openvpn start</code></pre></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><h3 class="ce-header shn-sub-sub-title" doc="true" id="open_google_firewall_port_1194" data-placeholder="">Open Google Firewall Port 1194</h3></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Next is that you have to open port 1194, because by default, google only allows external connections via port 22 which is port ssh. Below is a video that instructs you to open port 1194 (1194 is the port you entered when configuring openvpn server above).</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block embed-tool"><preloader class="embed-tool__preloader"><div class="embed-tool__url">https://youtu.be/gyZv4puxgvc</div></preloader><iframe style="width:100%;" height="320" frameborder="0" allowfullscreen="" src="./documentation_files/gyZv4puxgvc.html" class="embed-tool__content"></iframe><div class="cdx-input embed-tool__caption" doc="true" data-placeholder="Enter a caption"></div></div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="3_setup_client_openvpn" data-placeholder="">3. Setup Client OpenVPN</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Finally, you create the file for the client to connect to (with the extension ovpn). Here is the video tutorial<br><br></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block embed-tool"><preloader class="embed-tool__preloader"><div class="embed-tool__url">https://youtu.be/bwh333d3Kso</div></preloader><iframe style="width:100%;" height="320" frameborder="0" allowfullscreen="" src="./documentation_files/bwh333d3Kso.html" class="embed-tool__content"></iframe><div class="cdx-input embed-tool__caption" doc="true" data-placeholder="Enter a caption"></div></div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="4_multi_openvpn_server" data-placeholder="">4. Multi OpenVPN Server</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Repeat the above steps to create more vpn servers globally. Note that when you create Google VM Instange, please choose another area to diversify server for your application.</div></div></div><div class="ce-block"><div class="ce-block__content"><h1 class="ce-header shn-title" doc="true" id="setup_cms_admin" data-placeholder="">Setup CMS Admin</h1></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">In <b>ProxyVPN</b>, we provide you with CMS Admin, it is a website used to administer, along with that, we also statistic chart for you daily, monthly or the amount of data that people User used through the app. And to save time, we have used Firebase services, including: Firebase Cloud Firestore, Firebase Hosting, Firebse Cloud Function. Firebase Authenticate</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b><code class="inline-code"><b>I. Cloud Firestore</b></code></b> is a flexible, scalable database for mobile, web, and server development from Firebase and Google Cloud Platform. ... Cloud Firestore also offers seamless integration with other Firebase and Google Cloud Platform products, including Cloud Functions</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><code class="inline-code">II. <b>Firebase Hosting</b></code><b></b> is production-grade web content hosting for developers. With a single command, you can quickly deploy web apps and serve both static and dynamic content to a global CDN (content delivery network)</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b><code class="inline-code"><b>III. Cloud Functions</b></code></b> for Firebase is a serverless framework that lets you automatically run backend code in response to events triggered by Firebase features and HTTPS requests. ... Learn more about how Firebase fits into the picture.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b><code class="inline-code"><b>IV. Firebase Authentication</b></code></b> provides backend services, easy-to-use SDKs, and ready-made UI libraries to authenticate users to your app. It supports authentication using passwords, phone numbers, popular federated identity providers like Google, Facebook and Twitter, and more</div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="1_config_firebase_hosting" data-placeholder="">1. Config Firebase Hosting</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Firebase hosting supports multiple sites on a single Firebase project. There are many use cases for this awesome feature. For example, you can deploy a staging build of your website to test it first before deploying it to production. You can also host both your customer and admin websites on a single Firebase project.</div></div></div><div class="ce-block"><div class="ce-block__content"><h3 class="ce-header shn-sub-sub-title" doc="true" id="install_firebase_cli" data-placeholder="">Install Firebase CLI</h3></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Install Firebase CLI to your machine if you have not done so.</div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><pre class=" language-bash" style="font-style: normal; font-variant-caps: normal; border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; background-color: rgb(245, 245, 245); text-shadow: white 0px 1px; word-break: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none; padding: 1em;"><code class=" language-bash" style="border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; text-shadow: white 0px 1px; word-spacing: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none;">$ <span class="token function" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(221, 74, 104);"><span class="hljs-built_in">npm</span></span> <span class="token function" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(221, 74, 104);">install</span> -g firebase-tools</code></pre></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Login to your Firebase account. A new tab should appear on your browser which will log in to firebase.</div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><pre class=" language-bash" style="font-style: normal; font-variant-caps: normal; border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; background-color: rgb(245, 245, 245); text-shadow: white 0px 1px; word-break: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none; padding: 1em;"><code class=" language-bash" style="border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; text-shadow: white 0px 1px; word-spacing: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none;">$ firebase login</code></pre></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><h3 class="ce-header shn-sub-sub-title" doc="true" id="setting_up_firebase" data-placeholder="">Setting up Firebase</h3></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Run this following command on your CLI on the root directory (root &gt; firebase &gt; hosting) of the ProxyVPN to add Firebase hosting configurations to the project.<br></div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><pre class=" language-bash" style="font-style: normal; font-variant-caps: normal; border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; background-color: rgb(245, 245, 245); text-shadow: white 0px 1px; word-break: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none; padding: 1em;"><code class=" language-bash" style="border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; text-shadow: white 0px 1px; word-spacing: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none;">$ firebase <span class="hljs-keyword">init</span> hosting</code></pre></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">These are the inputs that I have given to firebase. You can select different options if you are not using the ProxyVPN</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/FaAvy4a.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption">There should be 2 new files created on the root directory of your project (.firebaserc and firebase.json).</div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><h3 class="ce-header shn-sub-sub-title" doc="true" id="add_firebase_to_your_web_app" data-placeholder="">Add Firebase to your web app</h3></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">To add Firebase to your app, you’ll need a Firebase project and a short snippet of initialization code that has a few details about your project.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">1. Create a Firebase project in the Firebase console.a. If you don’t have an existing Firebase project, click Add project and enter either an existing Google Cloud Platform project name or a new project name.b. If you already have apps in your project, click Add Another App from the project overview page.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">2. From the project overview page in the Firebase console, click Add Firebase to your web app.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">3. Copy and paste your project’s customized code snippet in the tag of your page, before other script tags.From your project page in the Firebase Console, select “Add Firebase to your Web App”. This opens a dialog window that asks for your app’s App nickname. 'It also asks for an optional Also setup Firebase Hosting for this app', which you can keep blank.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/BP4oMUr.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption">Click Register app and see the result:<br></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/z5GCMTz.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption">Click Copy, then paste the code snippet into your .env in root directory (root &gt; .env). The code snippet should look like this:<br></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><pre class=" language-bash" style="font-style: normal; font-variant-caps: normal; border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; background-color: rgb(245, 245, 245); text-shadow: white 0px 1px; word-break: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none; padding: 1em;"><code class=" language-bash" style="border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; text-shadow: white 0px 1px; word-spacing: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none;"><span class="hljs-attribute"><span class="hljs-attribute"><span class="hljs-attribute"><span class="hljs-attribute">API_KEY</span></span></span></span>: <span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(102, 153, 0);">"apiKey"</span>
+
+<span class="http"><span class="hljs-attribute"><span class="http"><span class="hljs-attribute"><span class="http"><span class="hljs-attribute"><span class="http"><span class="hljs-attribute">AUTH_DOMAIN</span></span></span></span></span></span></span><span class="http"><span class="http"><span class="http">: </span></span></span></span><span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(102, 153, 0);"><span class="http"><span class="http"><span class="http"><span class="http">"authDomain"</span></span></span></span></span><span class="http"><span class="http"><span class="http"><span class="http">
+
+</span></span></span><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="hljs-attribute">DATABASE_URL</span></span></span></span></span></span></span></span></span></span><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">: </span></span></span></span></span></span></span></span><span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(102, 153, 0);"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">"databaseURL"</span></span></span></span></span></span></span></span></span><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">
+
+</span></span></span></span></span></span><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="hljs-attribute">PROJECT_ID</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">: </span></span></span></span></span></span></span></span></span></span></span></span><span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(102, 153, 0);"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">"projectId"</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">
+
+</span></span></span></span></span></span></span></span></span><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="http"><span class="hljs-attribute">STORAGE_BUCKET</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">: </span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(102, 153, 0);"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">"storageBucket"</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">
+
+</span></span></span></span></span></span></span></span></span></span></span></span><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="hljs-attribute">MESSAGING_SENDER_ID</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">: </span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(102, 153, 0);"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">"messagingSenderId"</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">
+
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="hljs-attribute">APP_ID</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">: </span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(102, 153, 0);"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">"appId"</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http">
+
+</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="less"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="less"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="less"><span class="hljs-attribute"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="less"><span class="hljs-attribute">MEASUREMENT_ID</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="less"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="less"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="less">: </span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(102, 153, 0);"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="less"><span class="hljs-string"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="less"><span class="hljs-string"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="less"><span class="hljs-string"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="http"><span class="less"><span class="hljs-string">"measurementId"</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></code></pre></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="2_config_firebase_cloud_function" data-placeholder="">2. Config Firebase Cloud Function</h2></div></div><div class="ce-block"><div class="ce-block__content"><h6 class="ce-header" doc="true" id="recently_google_s_firebase_introduces_a_new_functionality_which_is_called_cloud_functions_with_this_new_service_firebase_offers_a_scaleable_solution_for_running_back_end_code_in_the_cloud_running_code_in_the_cloud_has_various_advantages_you_do_not_need_to_run_and_maintain_your_own_server_before_deplop_firebase_functions_please_take_a_look_below" data-placeholder="">Recently Google's Firebase introduces a new functionality which is called Cloud Functions. With this new service Firebase offers a scaleable solution for running back-end code in the cloud. Running code in the cloud has various advantages: You do not need to run and maintain your own server. Before deplop firebase functions, please take a look below</h6></div></div><div class="ce-block"><div class="ce-block__content"><h3 class="ce-header shn-sub-sub-title" doc="true" id="change_database_url" data-placeholder="">Change Database URL</h3></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">1. Goto Service Account in Firebase setting and copy data</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/Ie1D0mL.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">2. Replace it in cloud function (root &gt; firebase &gt; cloud functions &gt; index.js)</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/SR412ie.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Next step please see a video tutorial on how to create a firebase cloud function:</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block embed-tool"><preloader class="embed-tool__preloader"><div class="embed-tool__url">https://youtu.be/s6iUqv_jqmI</div></preloader><iframe style="width:100%;" height="320" frameborder="0" allowfullscreen="" src="./documentation_files/s6iUqv_jqmI.html" class="embed-tool__content"></iframe><div class="cdx-input embed-tool__caption" doc="true" data-placeholder="Enter a caption"></div></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">After you deploy, depending upon the trigger, for me it was function.https.onRequest so I get a URL, you can get the URL through the console as well.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/58IgBNg.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="3_deploy_to_firebase_hosting" data-placeholder="">3. Deploy to Firebase hosting</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">1. Click Copy URL, then paste the code snippet into your .env in root directory (root &gt; .env). The code snippet should look like this:</div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><span style="font-style: normal; font-variant-caps: normal; white-space: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; background-color: rgb(245, 245, 245);"><span class="hljs-attribute">API</span>: <span class="hljs-attribute">https</span>:<span class="hljs-comment">//</span></span><span class="token string" style="font-style: normal; font-variant-caps: normal; white-space: normal; border-style: solid; border-color: rgb(226, 232, 240); color: rgb(102, 153, 0); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px;"><span class="hljs-comment">"youdomain"</span></span><span style="font-style: normal; font-variant-caps: normal; white-space: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; background-color: rgb(245, 245, 245);"><span class="hljs-comment">.cloudfunctions.net/</span></span></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">2. Edit fibrease.json in root directory (root &gt; firebase.json)</div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><pre class=" language-bash" style="font-style: normal; font-variant-caps: normal; border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; background-color: rgb(245, 245, 245); text-shadow: white 0px 1px; word-break: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none; padding: 1em;"><code class=" language-bash" style="border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; text-shadow: white 0px 1px; word-spacing: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none;"><span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(153, 153, 153);">{</span>
+    <span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(102, 153, 0);"><span class="hljs-attr">"hosting"</span></span><span class="token builtin class-name" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(221, 74, 104);">:</span> <span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(153, 153, 153);">{</span></code></pre><pre class=" language-bash" style="font-style: normal; font-variant-caps: normal; border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; background-color: rgb(245, 245, 245); text-shadow: white 0px 1px; word-break: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none; padding: 1em;"><code class=" language-bash" style="border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; text-shadow: white 0px 1px; word-spacing: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none;">
+        <span class="token string" style="color: rgb(102, 153, 0); border-style: solid; border-color: rgb(226, 232, 240);"><span class="hljs-attr">"public"</span></span><span class="token builtin class-name" style="color: rgb(221, 74, 104); border-style: solid; border-color: rgb(226, 232, 240);">:</span><font color="#000000"> </font><span class="token string" style="color: rgb(102, 153, 0); border-style: solid; border-color: rgb(226, 232, 240);"><span class="hljs-string">"build"</span></span><font color="#000000">,
+
+        </font><span class="token string" style="color: rgb(102, 153, 0); border-style: solid; border-color: rgb(226, 232, 240);"><span class="hljs-attr">"ignore"</span></span><span class="token builtin class-name" style="color: rgb(221, 74, 104); border-style: solid; border-color: rgb(226, 232, 240);">:</span><font color="#000000"> </font><span class="token punctuation" style="color: rgb(153, 153, 153); border-style: solid; border-color: rgb(226, 232, 240);">[</span><font color="#000000">
+
+            </font><span class="token string" style="color: rgb(102, 153, 0); border-style: solid; border-color: rgb(226, 232, 240);"><span class="hljs-string">"firebase.json"</span></span><font color="#000000">,
+
+            </font><span class="token string" style="color: rgb(102, 153, 0); border-style: solid; border-color: rgb(226, 232, 240);"><span class="hljs-string">"**/.*"</span></span><font color="#000000">,
+
+            </font><span class="token string" style="color: rgb(102, 153, 0); border-style: solid; border-color: rgb(226, 232, 240);"><span class="hljs-string">"**/node_modules/**"</span></span><font color="#000000">
+        </font><span class="token punctuation" style="color: rgb(153, 153, 153); border-style: solid; border-color: rgb(226, 232, 240);">]</span><font color="#000000">,
+
+        </font><span class="token string" style="color: rgb(102, 153, 0); border-style: solid; border-color: rgb(226, 232, 240);"><span class="hljs-attr">"rewrites"</span></span><span class="token builtin class-name" style="color: rgb(221, 74, 104); border-style: solid; border-color: rgb(226, 232, 240);">:</span><font color="#000000"> </font><span class="token punctuation" style="color: rgb(153, 153, 153); border-style: solid; border-color: rgb(226, 232, 240);">[</span><font color="#000000"> </font><span class="token punctuation" style="color: rgb(153, 153, 153); border-style: solid; border-color: rgb(226, 232, 240);">{</span><font color="#000000">
+
+            </font><span class="token string" style="color: rgb(102, 153, 0); border-style: solid; border-color: rgb(226, 232, 240);"><span class="hljs-attr">"source"</span></span><span class="token builtin class-name" style="color: rgb(221, 74, 104); border-style: solid; border-color: rgb(226, 232, 240);">:</span><font color="#000000"> </font><span class="token string" style="color: rgb(102, 153, 0); border-style: solid; border-color: rgb(226, 232, 240);"><span class="hljs-string">"**"</span></span><font color="#000000">,
+            
+            </font><span class="token string" style="color: rgb(102, 153, 0); border-style: solid; border-color: rgb(226, 232, 240);"><span class="hljs-attr">"destination"</span></span><span class="token builtin class-name" style="color: rgb(221, 74, 104); border-style: solid; border-color: rgb(226, 232, 240);">:</span><font color="#000000"> </font><span class="token string" style="color: rgb(102, 153, 0); border-style: solid; border-color: rgb(226, 232, 240);"><span class="hljs-string">"/index.html"</span></span><font color="#000000">
+        
+        </font><span class="token punctuation" style="color: rgb(153, 153, 153); border-style: solid; border-color: rgb(226, 232, 240);">}</span><span class="token punctuation" style="color: rgb(153, 153, 153); border-style: solid; border-color: rgb(226, 232, 240);">]</span><font color="#000000">
+    </font><span class="token punctuation" style="color: rgb(153, 153, 153); border-style: solid; border-color: rgb(226, 232, 240);">}</span><font color="#000000">
+</font><span class="token punctuation" style="color: rgb(153, 153, 153); border-style: solid; border-color: rgb(226, 232, 240);">}</span></code></pre></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/aFeIkFp.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>NOTE: IF YOU ARE USING WINDOWS, PLEASE FOLLOW SOME STEP BELOW:</b></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">I. Install <code class="inline-code">rimraf</code></div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><span style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; font-style: normal; font-variant-caps: normal; white-space: normal; background-color: rgb(245, 245, 245);">$ <span class="hljs-built_in"><span class="hljs-built_in">npm</span></span> i -g rimraf</span><br></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">II. Change <code class="inline-code">clean-dist</code> command in <code class="inline-code">package.json</code></div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><font face="Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace" color="#000000"><span style="caret-color: rgb(0, 0, 0); white-space: normal;">"clean-dist": "rimraf build"</span></font></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">See image below:</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/65IivJ0.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">3. We run the following command on our CLI to add a target name to a hosting resource on Firebase.</div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><span style="font-style: normal; font-variant-caps: normal; white-space: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; background-color: rgb(245, 245, 245);">$&nbsp;&nbsp;</span><span class="token function" style="font-style: normal; font-variant-caps: normal; white-space: normal; border-style: solid; border-color: rgb(226, 232, 240); color: rgb(221, 74, 104); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px;">yarn</span><span style="font-style: normal; font-variant-caps: normal; white-space: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; background-color: rgb(245, 245, 245);">&nbsp;</span><span class="token operator" style="font-style: normal; font-variant-caps: normal; white-space: normal; border-style: solid; border-color: rgb(226, 232, 240); color: rgb(154, 110, 58); background-color: rgba(255, 255, 255, 0.5); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px;">&amp;&amp;</span><span style="font-style: normal; font-variant-caps: normal; white-space: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; background-color: rgb(245, 245, 245);">&nbsp;</span><span class="token function" style="font-style: normal; font-variant-caps: normal; white-space: normal; border-style: solid; border-color: rgb(226, 232, 240); color: rgb(221, 74, 104); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px;">yarn</span><span style="font-style: normal; font-variant-caps: normal; white-space: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; background-color: rgb(245, 245, 245);">&nbsp;build&nbsp;</span><span class="token operator" style="font-style: normal; font-variant-caps: normal; white-space: normal; border-style: solid; border-color: rgb(226, 232, 240); color: rgb(154, 110, 58); background-color: rgba(255, 255, 255, 0.5); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px;">&amp;&amp;</span><span style="font-style: normal; font-variant-caps: normal; white-space: normal; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; background-color: rgb(245, 245, 245);">&nbsp;firebase deploy</span></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">The final result after you deployed successfully:</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/exo0DdS.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="3_1_deploy_to_custom_hosting" data-placeholder="">3.1 Deploy to Custom Hosting</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block embed-tool"><preloader class="embed-tool__preloader"><div class="embed-tool__url">https://youtu.be/FitJlRV5FAs</div></preloader><iframe style="width:100%;" height="320" frameborder="0" allowfullscreen="" src="./documentation_files/FitJlRV5FAs.html" class="embed-tool__content"></iframe><div class="cdx-input embed-tool__caption" doc="true" data-placeholder="Enter a caption">How to upload CMS Admin to Custom Hosting</div></div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="4_enable_firebase_authentication" data-placeholder="">4. Enable Firebase Authentication</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">1. It time to explore the Firebase Authentication now,enable whatever Sign-In-Method you’ll like to use</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/htKpSRo.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">2. Access the url you just deployed to firebase (After deploying the URL is usually printed on the last line. As shown in the picture is: https://wit-vpn.web.app) to create User Admin.</div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="5_generate_list_item_server_vpn_for_mobile" data-placeholder="">5. Generate List Item Server VPN For Mobile</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Below is a video tutorial on how to create a item server on cms admin<br></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block embed-tool"><preloader class="embed-tool__preloader"><div class="embed-tool__url">https://youtu.be/Aqdvv8FCMNk</div></preloader><iframe style="width:100%;" height="320" frameborder="0" allowfullscreen="" src="./documentation_files/Aqdvv8FCMNk.html" class="embed-tool__content"></iframe><div class="cdx-input embed-tool__caption" doc="true" data-placeholder="Enter a caption"></div></div></div></div><div class="ce-block"><div class="ce-block__content"><h1 class="ce-header shn-title" doc="true" id="setup_android_mobile" data-placeholder="">Setup Android Mobile&nbsp;</h1></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="1_setup_firebase_project_for_android" data-placeholder="">1. Setup Firebase Project for Android</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">From your project page in the Firebase Console, select <code class="inline-code">Add Firebase to your Android App</code>&nbsp;This opens a dialog window that asks for your app’s Package name,and the Debug signing certificate <code class="inline-code">SHA-1</code>. It also asks for an optional App Nickname, which you can keep blank.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/20hagJt.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">For the package name, paste in your package name, mine is <code class="inline-code">app.witwork.vpn</code> so it matches the package name from the your android project. You can find this in your app's <code class="inline-code">AndroidManifest.xml</code> file.</div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="2_getting_the_debug_certificate" data-placeholder="">2. Getting the Debug Certificate</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">You’ll need to add the debug signing certificate too ,which is optional.The <code class="inline-code">SHA-1</code> is a type of hash representation for the debug keystore. You can do this by going to the gradle at the right side of your project screen.Select <code class="inline-code">app &gt; android &gt; signInReport</code>.Select the string of numbers and colons after the line that’s labeled <code class="inline-code">SHA-1</code> and copy it. Then paste it in the dialog back in the Firebase Console.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/jC94eIO.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="3_add_google_services_json" data-placeholder="">3. Add google-services.json</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Once you click <code class="inline-code">Register App</code>, a <code class="inline-code">google-services.json</code> file should download automatically. The google-services.json file connects your client-side app with your specific Firebase project that will handle the server-side components of your app. Once the download is complete, move the <code class="inline-code">google-services.json</code> file to the app directory of the your project. In Android Studio, you can select the <code class="inline-code">Project</code>&nbsp;view in the top-left corner of the Project navigation view, and then open the app directory. You can then drag the <code class="inline-code">google-services.json</code> file into the <code class="inline-code">Android Studio</code> project. You should end up with a project file tree like the following screenshot.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/xWFA7h6.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="4_onesignal_push_notification" data-placeholder="">4. Onesignal Push Notification</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Add the following in your <code class="inline-code">android &gt; defaultConfig</code> section. Update <code class="inline-code">PUT_YOUR_ONESIGNAL_APP_ID_HERE</code> with your OneSignal App id</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">How to get OneSignal App Id: <a href="https://documentation.onesignal.com/docs/android-sdk-setup">Read more</a></div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><pre class=" language-bash" style="font-style: normal; font-variant-caps: normal; border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; background-color: rgb(245, 245, 245); text-shadow: white 0px 1px; word-break: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none; padding: 1em;"><code class=" language-bash" style="border-style: solid; border-color: rgb(226, 232, 240); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; text-shadow: white 0px 1px; word-spacing: normal; word-wrap: normal; line-height: 1; tab-size: 4; -webkit-hyphens: none;"><span class="hljs-section">android</span> <span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(153, 153, 153);">{</span>
+
+    <span class="hljs-section">defaultConfig</span> <span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(153, 153, 153);">{</span>
+
+        <span class="hljs-attribute">manifestPlaceholders</span> <span class="token operator" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(154, 110, 58); background-color: rgba(255, 255, 255, 0.5);">=</span> <span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(153, 153, 153);">[</span>
+
+            onesignal_app_id: <span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(102, 153, 0);"><span class="hljs-string">'PUT_YOUR_ONESIGNAL_APP_ID_HERE'</span></span>,
+
+            // Project number pulled from dashboard, <span class="token builtin class-name" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(221, 74, 104);">local</span> value is ignored.
+
+            onesignal_google_project_number: <span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(102, 153, 0);"><span class="hljs-string">'REMOTE'</span></span>
+
+        <span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(153, 153, 153);">]</span>
+
+    <span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(153, 153, 153);">}</span>
+
+<span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); color: rgb(153, 153, 153);">}</span></code></pre></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="5_google_admob" data-placeholder="">5. Google AdMob</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Add the following in your <code class="inline-code">android &gt; productFlavors</code> section. Update <code class="inline-code">PUT_YOUR_GOOGLE_AD_MOB_APP_ID_HERE</code> with your OneSignal App id</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">How to get Google AdMob ID: <a href="https://developers.google.com/admob/android/quick-start">Read more</a></div></div></div><div class="ce-block"><div class="ce-block__content"><pre class="codeBoxHolder"><div class="codeBoxTextArea light Auto-detect" doc="true"><pre class=" language-bash" style="padding: 1em; font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; border-style: solid; border-color: rgb(226, 232, 240); font-style: normal; font-variant-caps: normal; line-height: 1; caret-color: rgb(0, 0, 0); text-shadow: white 0px 1px; word-break: normal; word-wrap: normal; tab-size: 4; -webkit-hyphens: none;"><code class=" language-bash" style="font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; font-size: 14px; color: black; border-style: solid; border-color: rgb(226, 232, 240); line-height: 1; text-shadow: white 0px 1px; word-spacing: normal; word-wrap: normal; tab-size: 4; -webkit-hyphens: none;"><span class="hljs-section" style="font-size: 14px;"><span class="hljs-section" style="font-size: 14px;"><span class="hljs-section" style="font-size: 14px;"><span class="hljs-section">android</span></span></span></span> <span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); font-size: 14px; color: rgb(153, 153, 153);">{</span>
+
+    <span class="hljs-section" style="font-size: 14px;"><span class="hljs-section" style="font-size: 14px;"><span class="hljs-section" style="font-size: 14px;"><span class="hljs-section">product</span></span></span></span> <span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); font-size: 14px; color: rgb(153, 153, 153);">{</span>
+
+        <span class="hljs-attribute" style="font-size: 14px;"><span class="hljs-attribute" style="font-size: 14px;"><span class="hljs-attribute" style="font-size: 14px;"><span class="hljs-attribute">dimension</span></span></span></span> <span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); font-size: 14px; color: rgb(102, 153, 0);"><span class="hljs-string" style="font-size: 14px;"><span class="hljs-string" style="font-size: 14px;"><span class="hljs-string" style="font-size: 14px;"><span class="hljs-string">"version"</span></span></span></span></span>
+
+        resValue<span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); font-size: 14px; color: rgb(153, 153, 153);">(</span><span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); font-size: 14px; color: rgb(102, 153, 0);"><span class="hljs-string" style="font-size: 14px;"><span class="hljs-string" style="font-size: 14px;"><span class="hljs-string" style="font-size: 14px;"><span class="hljs-string">"string"</span></span></span></span></span>, <span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); font-size: 14px; color: rgb(102, 153, 0);"><span class="hljs-string" style="font-size: 14px;"><span class="hljs-string" style="font-size: 14px;"><span class="hljs-string" style="font-size: 14px;"><span class="hljs-string">"ADMOB_ID"</span></span></span></span></span>, <span class="token string" style="border-style: solid; border-color: rgb(226, 232, 240); font-size: 14px; color: rgb(102, 153, 0);"><span class="hljs-string" style="font-size: 14px;"><span class="hljs-string" style="font-size: 14px;"><span class="hljs-string" style="font-size: 14px;"><span class="hljs-string">"PUT_YOUR_GOOGLE_AD_MOB_APP_ID_HERE"</span></span></span></span></span><span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); font-size: 14px; color: rgb(153, 153, 153);">)</span>
+
+    <span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); font-size: 14px; color: rgb(153, 153, 153);">}</span>
+<span class="token punctuation" style="border-style: solid; border-color: rgb(226, 232, 240); font-size: 14px; color: rgb(153, 153, 153);">}</span></code></pre></div><div class="codeBoxSelectDiv"><i class="codeBoxSelectDropIcon light">↓</i><input class="codeBoxSelectInput light" type="text" readonly="true"><div class="codeBoxSelectPreview"><p class="codeBoxSelectItem light" data-key="none">Auto-detect</p><p class="codeBoxSelectItem light" data-key="apache">Apache</p><p class="codeBoxSelectItem light" data-key="bash">Bash</p><p class="codeBoxSelectItem light" data-key="cs">C#</p><p class="codeBoxSelectItem light" data-key="cpp">C++</p><p class="codeBoxSelectItem light" data-key="css">CSS</p><p class="codeBoxSelectItem light" data-key="coffeescript">CoffeeScript</p><p class="codeBoxSelectItem light" data-key="diff">Diff</p><p class="codeBoxSelectItem light" data-key="go">Go</p><p class="codeBoxSelectItem light" data-key="html">HTML, XML</p><p class="codeBoxSelectItem light" data-key="http">HTTP</p><p class="codeBoxSelectItem light" data-key="json">JSON</p><p class="codeBoxSelectItem light" data-key="java">Java</p><p class="codeBoxSelectItem light" data-key="javascript">JavaScript</p><p class="codeBoxSelectItem light" data-key="kotlin">Kotlin</p><p class="codeBoxSelectItem light" data-key="less">Less</p><p class="codeBoxSelectItem light" data-key="lua">Lua</p><p class="codeBoxSelectItem light" data-key="makefile">Makefile</p><p class="codeBoxSelectItem light" data-key="markdown">Markdown</p><p class="codeBoxSelectItem light" data-key="nginx">Nginx</p><p class="codeBoxSelectItem light" data-key="objectivec">Objective-C</p><p class="codeBoxSelectItem light" data-key="php">PHP</p><p class="codeBoxSelectItem light" data-key="perl">Perl</p><p class="codeBoxSelectItem light" data-key="properties">Properties</p><p class="codeBoxSelectItem light" data-key="python">Python</p><p class="codeBoxSelectItem light" data-key="ruby">Ruby</p><p class="codeBoxSelectItem light" data-key="rust">Rust</p><p class="codeBoxSelectItem light" data-key="scss">SCSS</p><p class="codeBoxSelectItem light" data-key="sql">SQL</p><p class="codeBoxSelectItem light" data-key="shell">Shell Session</p><p class="codeBoxSelectItem light" data-key="swift">Swift</p><p class="codeBoxSelectItem light" data-key="toml">TOML, also INI</p><p class="codeBoxSelectItem light" data-key="typescript">TypeScript</p><p class="codeBoxSelectItem light" data-key="yaml">YAML</p><p class="codeBoxSelectItem light" data-key="plaintext">Plaintext</p></div></div></pre></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="6_google_play_create_a_subscription" data-placeholder="">6. Google Play Create a Subscription</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Review our updated Subscriptions Policy in the Developer Policy Center to ensure your app is compliant with the latest changes.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Using Google Play Billing, you can offer in-app products that charge users for content or services on a recurring basis, known as subscriptions. Subscriptions can include items like a collection of apps, games, or other content for a recurring fee within your app on Google Play. You can offer multiple subscriptions within the same app. Subscriptions must be priced within accepted prices ranges. Subscriptions can't be unpublished.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">You can also create a managed product, which charges users on a one-time basis. Important: Google Play Developer Program Policies and transaction fees apply to in-app products, including both managed products and subscriptions.</div></div></div><div class="ce-block"><div class="ce-block__content"><h3 class="ce-header shn-sub-sub-title" doc="true" id="availability" data-placeholder="">Availability</h3></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">If you're in a supported location for merchant registration, you can use Google Play Billing.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">If you’re in a supported location and want to start using Google Play Billing features in your apps, set up a payments profile and review the Google Play Billing API documentation.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">After you create a subscription, it’s available for users running the latest version of the Google Play Store.</div></div></div><div class="ce-block"><div class="ce-block__content"><h3 class="ce-header shn-sub-sub-title" doc="true" id="subscription_amp_free_trial_time_periods_nbsp" data-placeholder="">Subscription &amp; free trial time periods&nbsp;</h3></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">- 1 month</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">- 3 months</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">- 6 months</div></div></div><div class="ce-block"><div class="ce-block__content"><h6 class="ce-header" doc="true" id="annual" data-placeholder="">- Annual</h6></div></div><div class="ce-block"><div class="ce-block__content"><h3 class="ce-header shn-sub-sub-title" doc="true" id="add_a_subscription_to_your_app" data-placeholder="">Add a subscription to your app</h3></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Adding a subscription is similar to adding a managed product, except the price is set for a period of time.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Before creating a subscription, make sure to plan your product IDs carefully. Product IDs need to be unique for your app, and they can’t be changed or reused after they’ve been created.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">- Product IDs need to start with a lowercase letter or a number and must be composed of only lowercase letters (a-z), numbers (0-9), underscores (_), and periods (.)</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">- Note: The product ID android.test is unavailable for use, along with all product IDs that start with android.test</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Before adding a subscription, review Google Subscriptions Policy at: https://support.google.com/googleplay/android-developer/answer/9900533</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">To add a subscription:</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>1.</b> Sign in to your Play Console.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>2</b>. Click All applications All applications.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>3</b>. Select an app.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>4</b>. On the left menu, click Store presence &gt; In-app products &gt; Subscriptions.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>5</b>. Click Create subscription.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>6</b>. Enter your product details.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Title: A short name of the item (up to 55 characters, but we recommend limiting titles to 25 characters to display properly in all contexts), such as 'Sleeping potion.'</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Description: A long description of the item (up to 80 characters), such as 'Instantly puts creatures to sleep'.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Benefits: Provide up to 4 benefits, which each describe a feature of the subscription (up to 40 characters each)</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Benefits should highlight the features to give users a better idea of what your subscription offers, like “Full catalog of TV shows and movies.”</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Since not all users will be eligible for a promotional price or free trial, the benefit should not mention free trial or price, for example “Try 7 days free” is not allowed.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Price: Enter a price in your local currency.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>7</b>. Next to “Status,” choose Active or Inactive.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">To be available for purchase, a product needs to be active, and its app needs to be published.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">If you’re using a test account, active items are available in unpublished apps. To learn more, go to our Android developers site at: https://developer.android.com/google/play/billing/test#billing-testing-real.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>8</b> Click Save.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">To learn more, go to Google Console at: <a href="https://support.google.com/googleplay/android-developer/answer/140504?hl=en">Read more</a></div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="7_add_config_to_cloud_firestore" data-placeholder="">7. Add Config To Cloud Firestore</h2></div></div><div class="ce-block"><div class="ce-block__content"><h3 class="ce-header shn-sub-sub-title" doc="true" id="config_google_admob" data-placeholder="">Config Google AdMob.</h3></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><code class="inline-code">Firebase &gt; create "configs" collection</code></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/wB30vR5.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><code class="inline-code">Firebase &gt; configs &gt; create "ads" array</code></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/cmoECPb.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption">Please replace <code class="inline-code">ADMOB_ID</code> with your ID in your Google AdMob<br></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><h3 class="ce-header shn-sub-sub-title" doc="true" id="config_google_subscription_product_id" data-placeholder="">Config Google Subscription Product ID</h3></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Goto exits configs ID and Add Field</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Please replace <code class="inline-code">PRODUCT_ID</code> with your ID in your Google Console</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/Y6iOvIr.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Result after create <code class="inline-code">configs</code>&nbsp;collection:</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/2EoXFVS.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Final Step:</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Create a composite index: Firebase &gt; Cloud Firestore &gt; Indexes tab &gt; Add Index button</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>1</b>. Type Collection ID: Servers</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>2. </b>Fields to index:</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">- status</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">- premium</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>3.</b> Query scopes: Collection</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/PiAXoMS.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><h1 class="ce-header shn-title" doc="true" id="setup_ios_mobile" data-placeholder="">SETUP iOS MOBILE</h1></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="1_setup_firebase_project_for_ios" data-placeholder="">1. Setup Firebase Project for iOS</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">From your project page in the Firebase Console, select&nbsp;<code class="inline-code">Add Firebase to your iOS&nbsp; App</code>&nbsp;This opens a dialog window that asks for your app’s&nbsp; Bundle Id.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader" style=""></div><img class="image-tool__image-picture" src="https://witdoc.app/api/v1/images/2022-03-27T02:35:57.279Z-Screen%20Shot%202022-03-26%20at%2012.21.35.png.webp"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="2_add_google_services_json" data-placeholder="">2. Add google-services.json</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Once you click <code class="inline-code">Register App</code>, a <code class="inline-code">google-services.json</code> file should download automatically. The google-services.json file connects your client-side app with your specific Firebase project that will handle the server-side components of your app. Once the download is complete, move the <code class="inline-code">google-services.json</code> file to the app directory of the your project. In Android Studio, you can select the <code class="inline-code">Project</code>&nbsp;view in the top-left corner of the Project navigation view, and then open the app directory. You can then drag the <code class="inline-code">google-services.json</code> file into the <font color="#b44437"><span style="font-size: 13.76px; letter-spacing: 0.3px; background-color: rgba(250, 239, 240, 0.78);">iOS&nbsp;&nbsp;</span></font>&nbsp; project. You should end up with a project file tree like the following screenshot.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader" style=""></div><img class="image-tool__image-picture" src="https://witdoc.app/api/v1/images/2022-03-27T02:36:43.030Z-Screen%20Shot%202022-03-26%20at%2012.23.12.png.webp"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><h2 class="ce-header shn-sub-title" doc="true" id="3_add_in_app_purchase_to_cloud_firestore" data-placeholder="">3. Add&nbsp; In app purchase to Cloud Firestore</h2></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader" style=""></div><img class="image-tool__image-picture" src="https://witdoc.app/api/v1/images/2022-03-27T02:42:20.859Z-Screen%20Shot%202022-03-27%20at%2009.40.42.png.webp"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption">Please create as model iap-ios</div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Final Step:</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">Create a composite index: Firebase &gt; Cloud Firestore &gt; Indexes tab &gt; Add Index button</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>1</b>. Type Collection ID: Servers</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>2. </b>Fields to index:</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">- status</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">- premium</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""><b>3.</b> Query scopes: Collection</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="cdx-block image-tool image-tool--filled"><div class="image-tool__image"><div class="image-tool__image-preloader"></div><img class="image-tool__image-picture" src="./documentation_files/PiAXoMS.png"></div><div class="cdx-input image-tool__caption" doc="true" data-placeholder="Caption"></div><div class="cdx-button"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3.15 13.628A7.749 7.749 0 0 0 10 17.75a7.74 7.74 0 0 0 6.305-3.242l-2.387-2.127-2.765 2.244-4.389-4.496-3.614 3.5zm-.787-2.303l4.446-4.371 4.52 4.63 2.534-2.057 3.533 2.797c.23-.734.354-1.514.354-2.324a7.75 7.75 0 1 0-15.387 1.325zM10 20C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10z"></path></svg> Select an Image</div></div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""></div></div></div><div class="ce-block"><div class="ce-block__content"><h1 class="ce-header shn-title" doc="true" id="service_policy" data-placeholder="">SERVICE POLICY</h1></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">&nbsp;⁃ The Support Policy describes what support you can expect from us in regards to&nbsp;WitWorkApp Service. If you have questions about this Support Policy or do not agree with it, please contact us via emai hello@witwork.app . We may amend this Support Policy from time to time, so check this page to ensure that you are aware of any changes. This Support Policy is effective from 1 January 2021.&nbsp;</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">&nbsp;⁃ With regular license, you will receive 3-month support service</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">&nbsp;⁃ With extended license or installation packs (basic, advance, pro), you will receive 6-month support service</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">&nbsp;⁃ If you want to extend support service, you can buy a 6-month pack valued 100USD &nbsp;</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">&nbsp;⁃ We only support our Products, sold on CodeCanyon or by us directly. Our Support Service includes assistance and guide with Product installations, configuration, and use.&nbsp;</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">&nbsp;⁃ We will fix any defects in our Products as quickly as possible after they are brought to our attention. We will also try to provide a solution via our Skype for smaller defects or errors as a precursor to a more substantial update to the particular Product as part of our scheduled Product updates. If you think you have found a bug, please let us know. Please notice that we will not take responsibility with any bugs caused by your or Third Parties’ modification in our products</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">&nbsp;⁃ We don’t take responsibility of any issue relating to admob or ads banners excepted to Pro pack clients. Because they are caused by your wrong configuration or Ads providers</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">&nbsp;⁃ When you buy our products relating Tiktok. You accept a risk from App Store, Play Store and Tiktok which is a common issue of community.</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">&nbsp;⁃ Refunds are only authorized if our system doesn't work and we can not fix it. Besides, refund is not authorized when App Store, Play Store and Tiktok BARRIER community by banning, changing API - algorithm - output data …</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder="">-&nbsp; We don't take responsibility of any issue if our source code is changed by clients</div></div></div><div class="ce-block"><div class="ce-block__content"><div class="ce-paragraph cdx-block ce-paragraph--left" doc="true" data-placeholder=""></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+  <script src="./documentation_files/jquery.min.js.download"></script> <script src="./documentation_files/bootstrap.min.js.download"></script> <script>var categories={}; $(".search-result").hide(); $(document).ready(function(){var pageDom=""; function modifyCategory(cats={}){return Object.values(cats);}function generateCategory(){const domItems=$(".document-toolkit__content").find(".ce-header"); if (domItems.length > 0){for (let domItem of domItems){const domTag=$(domItem).prop("tagName").toLowerCase(); if (["h1", "h2"].includes(domTag)){const currentId=$(domItem).attr("id"); categories={...categories, [currentId]:{id: currentId, title: $(domItem).text().trim(), is_sub: domTag=="h2",},};}}}for (let cate of modifyCategory(categories)){var tmp=""; pageDom +=`<li class="nav-item">`; if (cate.is_sub){pageDom +=`<a class="nav-link ${cate.id}" href="#${cate.id}">${cate.title}</a>`;}else{pageDom +=`<div>${cate.title}</div>`;}pageDom +=`${tmp}</li>`;}$("#listPagination").html(`<ul class='nav'>${pageDom}</ul>`);}generateCategory(); $("#listPagination ul li").click(function(e){$("#listPagination ul li").removeClass("active"); $(this).addClass("active"); $('html, body').animate({scrollTop: $($(this).find('a').first().attr('href')).offset().top,}, 300);}); if (window.location.hash){$(`${window.location.hash.replace("#", '.')}`).parent().addClass("active"); $('html, body').animate({scrollTop: $(`${window.location.hash}`).offset().top,}, 300);}$('[data-spy="scroll"]').on('activate.bs.scrollspy', function(e){const activeEl=$("#listPagination ul").find('.active'); const id=$(activeEl).find('a').first().attr('href'); if (id){history.pushState(null, null, id); e.preventDefault();}}); $('[data-spy="scroll"]').each(function(){var $spy=$(this).scrollspy('refresh');}); $("#search-input").keyup(function(){var searchDom=""; $(".search-result").html("<div></div>"); const value=$("#search-input").val(); if (!value){$(".search-result").hide(); $(".ion-android-close").hide(); $(".ion-android-search").show(); return;}const escapedValue=value.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); const suggestions=modifyCategory(categories).filter(el=> el.title.toLowerCase().indexOf(escapedValue.toLowerCase()) > -1); if (suggestions.length > 0){$(".search-result").show(); $(".ion-android-close").show(); $(".ion-android-search").hide();}else{$(".search-result").hide(); $(".ion-android-close").hide(); $(".ion-android-search").show(); return;}for (let cate of suggestions){var tmp=""; searchDom +=`<li>`; searchDom +=`<a id="${cate.id}" href="#${cate.id}">${cate.title}</a>`; searchDom +=`${tmp}</li>`;}$(".search-result").html(`<ul>${searchDom}</ul>`); $(".ion-android-close").click(function(){$(".search-result").hide(); $(".ion-android-close").hide(); $(".ion-android-search").show(); $("#search-input").val("");})});}); </script></body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="56dp"
+    android:minHeight="56dp"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="8dp"
+    tools:background="@drawable/bg_input_view"
+    tools:parentTag="android.widget.RelativeLayout">
+
+    <TextView
+        android:id="@+id/tvLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0.14"
+        android:textAllCaps="true"
+        android:textAppearance="@style/AppContentText"
+        android:textColor="@color/white_50"
+        android:textSize="9dp"
+        tools:ignore="SpUsage"
+        tools:text="Email" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/cbIcon"
+        android:layout_marginEnd="16dp"
+        android:layout_toStartOf="@+id/cbIcon"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/worksans_regular"
+        android:inputType="none"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_50"
+        android:textSize="14sp"
+        tools:hint="Email address" />
+
+    <ImageButton
+        android:id="@+id/cbIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="invisible" />
+</merge>

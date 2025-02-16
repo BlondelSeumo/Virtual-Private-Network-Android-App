@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="InputView">
+        <attr name="iv_label" format="string" />
+        <attr name="iv_hint" format="string" />
+        <attr name="android:inputType" />
+        <attr name="iv_action" format="enum">
+            <enum name="NONE" value="0" />
+            <enum name="CANCEL" value="1" />
+            <enum name="HINT" value="2" />
+        </attr>
+        <attr name="state_error" format="boolean" />
+    </declare-styleable>
+</resources>

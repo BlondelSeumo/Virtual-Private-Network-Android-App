@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?colorPrimaryDark"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardBackgroundColor="?colorPrimary"
+        app:cardCornerRadius="15dp">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/divider_account"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:showDividers="middle">
+
+            <TableRow>
+
+                <TextView
+                    style="@style/AppBodyText"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/email" />
+
+                <TextView
+                    android:id="@+id/tv_email"
+                    style="@style/AppContentText"
+                    android:gravity="end"
+                    tools:text="@tools:sample/lorem" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/AppBodyText"
+                    android:layout_weight="1"
+                    android:text="@string/account" />
+
+                <TextView
+                    android:id="@+id/tv_package"
+                    style="@style/AppContentText"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical|end"
+                    tools:ignore="UseCompatTextViewDrawableXml"
+                    tools:text="Monthly - 20/03/2021" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/btn_logout"
+                    style="@style/AppBodyText"
+                    android:layout_weight="1"
+                    android:drawableEnd="@drawable/ic_arrow_right_24"
+                    android:gravity="center_vertical"
+                    android:text="@string/log_out"
+                    tools:ignore="UseCompatTextViewDrawableXml" />
+            </TableRow>
+
+        </TableLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
